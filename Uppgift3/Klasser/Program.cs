@@ -13,25 +13,46 @@ namespace Klasser
         {
             List<Person> person_list = new List<Person>();
             string name, modell, reggnummer, input, avsluta;
-            int vikt, age;
+            int vikt = 0, age = 0;
             bool elBil = false;
             bool loop = true, villAvsluta;
 
             while (loop)
             {
-
                 Console.WriteLine("\nVälkommen!");
                 Console.WriteLine("Skriv in ditt namn så kan vi börja!");
                 name = Console.ReadLine();
+
+            age:
                 Console.WriteLine("\nHur gammal är du?");
-                age = int.Parse(Console.ReadLine());
+                try
+                {
+                    age = int.Parse(Console.ReadLine());
+                }
+                catch
+                {
+                    Console.WriteLine("Felaktig inmatning, försök igen.");
+                    goto age;
+                }
+
                 Console.WriteLine("\nAnge modell: ");
                 modell = Console.ReadLine();
                 Console.WriteLine("\nAnge registreringsnummer: ");
                 reggnummer = Console.ReadLine();
-                Console.WriteLine("\nAnge vikt: ");
-                vikt = int.Parse(Console.ReadLine());
 
+            vikt:
+                Console.WriteLine("\nAnge vikt: ");
+                try
+                {
+                    vikt = int.Parse(Console.ReadLine());
+                }
+                catch
+                {
+                    Console.WriteLine("Felaktig inmatning, försök igen.");
+                    goto vikt;
+                }
+
+            elbil:
                 Console.WriteLine("\nÄr det en elbil?: Svara ja / nej: ");
                 input = Console.ReadLine();
                 if (input == "ja")
@@ -45,6 +66,7 @@ namespace Klasser
                 else
                 {
                     Console.WriteLine("\nDu skrev inte in ja eller nej.");
+                    goto elbil;
                 }
 
                 DateTime dateTime = DateTime.Now;
@@ -52,9 +74,9 @@ namespace Klasser
                 Bil bil = new Bil(modell, reggnummer, elBil, dateTime, vikt);
                 Person person = new Person(name, age, bil);
                 person_list.Add(person);
-                Console.Clear();
                 Console.WriteLine("\nTryck på en tangent för att skriva ut informationen på skärmen...");
                 Console.ReadKey(true);
+                Console.Clear();
 
                 foreach (var personer in person_list)
                 {
@@ -65,10 +87,12 @@ namespace Klasser
                     Console.WriteLine($"\n{personer.Bil.Tostring()}");
                     Console.WriteLine($"\nVikt: {personer.Bil.Vikt}");
                     Console.WriteLine($"\nDatum: {personer.Bil.Datum}");
+                    Console.WriteLine("-------------------------------------------------");
                 }
                 Console.WriteLine("\nTryck på en tangent...");
                 Console.ReadKey(true);
                 Console.Clear();
+
                 Console.WriteLine("\nVill du avsluta? ja / nej");
                 avsluta = Console.ReadLine();
                 villAvsluta = avsluta == "ja";
@@ -82,6 +106,7 @@ namespace Klasser
             }
         }
     }
+
     public class Bil
     {
         public string Reggnummer { get; set; }
@@ -111,6 +136,7 @@ namespace Klasser
             }
         }
     }
+
     public class Person
     {
         public Bil Bil { get; set; }
@@ -137,4 +163,3 @@ namespace Klasser
         }
     }
 }
-
