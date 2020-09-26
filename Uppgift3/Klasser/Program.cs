@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Klasser
 {
@@ -10,14 +11,130 @@ namespace Klasser
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            List<Person> person_list = new List<Person>();
+            string name, modell, reggnummer, input, avsluta;
+            int vikt, age;
+            bool elBil = false;
+            bool loop = true, villAvsluta;
 
-            Console.WriteLine("Hello World!");
+            while (loop)
+            {
+
+                Console.WriteLine("\nVälkommen!");
+                Console.WriteLine("Skriv in ditt namn så kan vi börja!");
+                name = Console.ReadLine();
+                Console.WriteLine("\nHur gammal är du?");
+                age = int.Parse(Console.ReadLine());
+                Console.WriteLine("\nAnge modell: ");
+                modell = Console.ReadLine();
+                Console.WriteLine("\nAnge registreringsnummer: ");
+                reggnummer = Console.ReadLine();
+                Console.WriteLine("\nAnge vikt: ");
+                vikt = int.Parse(Console.ReadLine());
+
+                Console.WriteLine("\nÄr det en elbil?: Svara ja / nej: ");
+                input = Console.ReadLine();
+                if (input == "ja")
+                {
+                    elBil = true;
+                }
+                else if (input == "nej")
+                {
+                    elBil = false;
+                }
+                else
+                {
+                    Console.WriteLine("\nDu skrev inte in ja eller nej.");
+                }
+
+                DateTime dateTime = DateTime.Now;
+
+                Bil bil = new Bil(modell, reggnummer, elBil, dateTime, vikt);
+                Person person = new Person(name, age, bil);
+                person_list.Add(person);
+                Console.Clear();
+                Console.WriteLine("\nTryck på en tangent för att skriva ut informationen på skärmen...");
+                Console.ReadKey(true);
+
+                foreach (var personer in person_list)
+                {
+                    Console.WriteLine($"\nNamn: {personer.Name}");
+                    Console.WriteLine($"\nÅlder: {personer.Age}");
+                    Console.WriteLine($"\nModell: {personer.Bil.Modell}");
+                    Console.WriteLine($"\nReggnummer: {personer.Bil.Reggnummer}");
+                    Console.WriteLine($"\n{personer.Bil.Tostring()}");
+                    Console.WriteLine($"\nVikt: {personer.Bil.Vikt}");
+                    Console.WriteLine($"\nDatum: {personer.Bil.Datum}");
+                }
+                Console.WriteLine("\nTryck på en tangent...");
+                Console.ReadKey(true);
+                Console.Clear();
+                Console.WriteLine("\nVill du avsluta? ja / nej");
+                avsluta = Console.ReadLine();
+                villAvsluta = avsluta == "ja";
+
+                if (villAvsluta)
+                {
+                    loop = false;
+                    Console.WriteLine("\nTryck på en tangent för att avsluta...");
+                    Console.ReadKey(true);
+                }
+            }
         }
     }
-
     public class Bil
     {
-        public string Registreringsnummer { get; set; }
+        public string Reggnummer { get; set; }
+        public string Modell { get; set; }
+        public DateTime Datum { get; set; }
+        public bool ElBil { get; set; }
+        public int Vikt { get; set; }
 
+        public Bil(string modell, string reggnummer, bool elBil, DateTime dateTime, int vikt)
+        {
+            Modell = modell;
+            Reggnummer = reggnummer;
+            ElBil = elBil;
+            Datum = dateTime;
+            Vikt = vikt;
+        }
+
+        public string Tostring()
+        {
+            if (ElBil == true)
+            {
+                return string.Format($"Detta är en elbil!");
+            }
+            else
+            {
+                return string.Format($"Detta är inte en elbil!");
+            }
+        }
+    }
+    public class Person
+    {
+        public Bil Bil { get; set; }
+        private string name { get; set; }
+        private int age { get; set; }
+
+        public Person(string name, int age, Bil bil)
+        {
+            this.name = name;
+            this.age = age;
+            Bil = bil;
+        }
+
+        public int Age
+        {
+            get { return age; }
+            set { age = value; }
+        }
+
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
     }
 }
+
