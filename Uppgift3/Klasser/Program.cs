@@ -15,7 +15,7 @@ namespace Klasser
             string name, modell, reggnummer, input, avsluta;
             int vikt = 0, age = 0;
             bool elBil = false;
-            bool loop = true, villAvsluta;
+            bool loop = true;
 
             while (loop)
             {
@@ -89,19 +89,26 @@ namespace Klasser
                     Console.WriteLine($"\nDatum: {personer.Bil.Datum}");
                     Console.WriteLine("-------------------------------------------------");
                 }
-                Console.WriteLine("\nTryck på en tangent...");
-                Console.ReadKey(true);
-                Console.Clear();
 
+                avsluta:
                 Console.WriteLine("\nVill du avsluta? ja / nej");
                 avsluta = Console.ReadLine();
-                villAvsluta = avsluta == "ja";
 
-                if (villAvsluta)
+                if (avsluta == "ja" )
                 {
                     loop = false;
                     Console.WriteLine("\nTryck på en tangent för att avsluta...");
                     Console.ReadKey(true);
+                }
+                else if (avsluta == "nej")
+                {
+                    Console.WriteLine("Du valde att fortsätta..");
+                    Console.Clear();
+                }
+                else 
+                {
+                    Console.WriteLine("Felaktigt inmatande..");
+                    goto avsluta;
                 }
             }
         }
